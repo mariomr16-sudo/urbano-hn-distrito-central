@@ -80,21 +80,139 @@
     },
     {
       "id": "hn-mdc-huella-aparicion",
-      "title": "Ciudad construida y año estimado de aparición (2016–2026)",
+      "title": "Grilla de 250 m y aparición estimada de huella construida (2017–2026)",
       "group": "Nivel 1: Datos globales",
-      "format": "xyz_or_cog",
-      "geometry_type": "raster",
-      "status": "en_preparacion",
-      "source_path": null,
-      "expected_file_hint": "geovisor/capas/mdc_huella_multitemporal.geojson o Tile URL",
-      "resolution": "10 m (Sentinel-2 / Dynamic World / Open Buildings 2.5D)",
+      "format": "geojson",
+      "geometry_type": "polygon",
+      "status": "en_revision",
+      "source_path": "geovisor/capas/mdc_grilla_aparicion_250m.geojson",
+      "expected_file_hint": "geovisor/capas/mdc_grilla_aparicion_250m.geojson",
+      "resolution": "Grilla completa de 250 m; polígonos EPSG:4326 y áreas agregadas en m²",
       "style": {
-        "fill_color": "#007F8B",
-        "fill_opacity": 0.45,
-        "stroke_color": "#005a63",
-        "stroke_width": 1
+        "fill_color": "#d9d9d9",
+        "fill_opacity": 0.72,
+        "stroke_color": "#737373",
+        "stroke_width": 0.35,
+        "fill_color_property": "anio",
+        "fill_color_categories": [
+          {
+            "value": 0,
+            "color": "#d9d9d9"
+          },
+          {
+            "value": 2017,
+            "color": "#9ecae1"
+          },
+          {
+            "value": 2018,
+            "color": "#6baed6"
+          },
+          {
+            "value": 2019,
+            "color": "#4292c6"
+          },
+          {
+            "value": 2020,
+            "color": "#2171b5"
+          },
+          {
+            "value": 2021,
+            "color": "#08519c"
+          },
+          {
+            "value": 2022,
+            "color": "#41ab5d"
+          },
+          {
+            "value": 2023,
+            "color": "#74c476"
+          },
+          {
+            "value": 2024,
+            "color": "#a1d99b"
+          },
+          {
+            "value": 2025,
+            "color": "#fd8d3c"
+          },
+          {
+            "value": 2026,
+            "color": "#e31a1c"
+          }
+        ],
+        "fill_color_fallback": "#d9d9d9",
+        "legend": [
+          {
+            "label": "Sin detección",
+            "color": "#d9d9d9"
+          },
+          {
+            "label": "2017",
+            "color": "#9ecae1"
+          },
+          {
+            "label": "2018",
+            "color": "#6baed6"
+          },
+          {
+            "label": "2019",
+            "color": "#4292c6"
+          },
+          {
+            "label": "2020",
+            "color": "#2171b5"
+          },
+          {
+            "label": "2021",
+            "color": "#08519c"
+          },
+          {
+            "label": "2022",
+            "color": "#41ab5d"
+          },
+          {
+            "label": "2023",
+            "color": "#74c476"
+          },
+          {
+            "label": "2024",
+            "color": "#a1d99b"
+          },
+          {
+            "label": "2025",
+            "color": "#fd8d3c"
+          },
+          {
+            "label": "2026",
+            "color": "#e31a1c"
+          }
+        ]
       },
-      "caveat": "Verificar cobertura temporal efectiva de Open Buildings 2.5D en el área."
+      "caveat": "Grilla completa de 250 m del MDC. Las celdas con detección se colorean por el año estimado de aparición; las celdas grises no registraron detección en esta capa. Dynamic World (2017–2026; 2026 parcial) y Open Buildings Temporal como filtro adicional para 2017–2023. Es una estimación, no fecha catastral ni evidencia de legalidad. Capa preliminar sujeta a revisión técnica y validación."
+    },
+    {
+      "id": "hn-mdc-huella-preexistente-2016",
+      "title": "Huella construida preexistente (base 2016)",
+      "group": "Nivel 1: Datos globales",
+      "format": "geojson",
+      "geometry_type": "polygon",
+      "status": "en_revision",
+      "source_path": "geovisor/capas/mdc_huella_preexistente_2016.geojson",
+      "expected_file_hint": "geovisor/capas/mdc_huella_preexistente_2016.geojson",
+      "resolution": "Celdas de 250 m; área de base 2016 agregada por celda (m²)",
+      "style": {
+        "fill_color": "#f4d35e",
+        "fill_opacity": 0.7,
+        "stroke_color": "#ffb703",
+        "stroke_width": 0.5,
+        "legend": [
+          {
+            "label": "Huella preexistente en 2016",
+            "color": "#f4d35e"
+          }
+        ]
+      },
+      "caveat": "Celdas con área de huella construida mayor que cero en la imagen base 2016, a partir de la exportación de Dynamic World de 250 m. Representa una estimación agregada y no una fecha catastral ni una delimitación predial. Capa preliminar sujeta a revisión técnica."
     },
     {
       "id": "hn-mdc-brecha-celdas-colonias",

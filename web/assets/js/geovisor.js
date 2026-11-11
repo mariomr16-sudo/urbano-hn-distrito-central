@@ -30,6 +30,19 @@
       tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
       attribution: "&copy; OpenStreetMap contributors &copy; OpenFreeMap"
     },
+    "dark-canvas": {
+      name: "Fondo oscuro liso (sin cartografía base)",
+      style: {
+        version: 8,
+        sources: {},
+        layers: [{ id: "dark-background", type: "background", paint: { "background-color": "#111821" } }]
+      }
+    },
+    "dark-hillshade": {
+      name: "Relieve sombreado oscuro (Esri)",
+      tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade_Dark/MapServer/tile/{z}/{y}/{x}"],
+      attribution: "Tiles &copy; Esri — World Hillshade (Dark)"
+    },
     "esri-imagery": {
       name: "Imagen Satelital de Referencia",
       tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
@@ -53,6 +66,9 @@
     var bm = BASEMAPS[basemapKey] || BASEMAPS["osm-standard"];
     if (bm.styleUrl) {
       return bm.styleUrl;
+    }
+    if (bm.style) {
+      return bm.style;
     }
     return {
       version: 8,
@@ -392,7 +408,7 @@
       try {
         mapInstance = new window.maplibregl.Map({
           container: canvas,
-          style: makeStyle("carto-positron"),
+          style: makeStyle("dark-hillshade"),
           center: center,
           zoom: zoom,
           attributionControl: true,
@@ -527,7 +543,15 @@
           : new URL(lyr.source_path, window.location.origin + baseUrl).href;
 
         if (lyr.format === "geojson") {
-          var fillColor = (lyr.style && lyr.style.fill_color) || "#007F8B";
+          var layerStyle = lyr.style || {};
+          var fillColor = layerStyle.fill_color || "#007F8B";
+          if (layerStyle.fill_color_property && Array.isArray(layerStyle.fill_color_categories)) {
+            fillColor = ["match", ["to-number", ["get", layerStyle.fill_color_property]]];
+            layerStyle.fill_color_categories.forEach(function (category) {
+              fillColor.push(Number(category.value), category.color);
+            });
+            fillColor.push(layerStyle.fill_color_fallback || layerStyle.fill_color || "#E5E7EB");
+          }
           var fillOpacity = (lyr.style && lyr.style.fill_opacity) !== undefined ? lyr.style.fill_opacity : 0.22;
           var strokeColor = (lyr.style && lyr.style.stroke_color) || "#14283F";
           var strokeWidth = (lyr.style && lyr.style.stroke_width) || 2;

@@ -851,6 +851,16 @@ def build_aplicacion_page(
                 if lyr.get("caveat")
                 else ""
             )
+            legend_items = (lyr.get("style") or {}).get("legend") or []
+            legend_html = (
+                '<div class="layer-item-legend" style="display:flex;flex-wrap:wrap;gap:0.4rem 0.7rem;margin-top:0.45rem;">'
+                + "".join(
+                    f'<span style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.78rem;"><i aria-hidden="true" style="display:inline-block;width:0.8rem;height:0.8rem;background:{esc(item.get("color"))};border:1px solid #737373;border-radius:2px;"></i>{esc(item.get("label"))}</span>'
+                    for item in legend_items
+                )
+                + "</div>"
+                if legend_items else ""
+            )
             items_html.append(
                 f"""
                 <div class="layer-item">
@@ -867,6 +877,7 @@ def build_aplicacion_page(
                     <label for="op-{esc(lid)}">Opacidad:</label>
                     <input id="op-{esc(lid)}" type="range" min="0.1" max="1" step="0.05" value="0.55" data-layer-opacity="{esc(lid)}"{disabled_attr}>
                   </div>
+                  {legend_html}
                   {caveat_html}
                 </div>
                 """
@@ -966,6 +977,8 @@ def build_aplicacion_page(
                 <option value="carto-positron">Mapa Claro Vectorial (OpenFreeMap)</option>
                 <option value="osm-standard">OpenStreetMap Estándar</option>
                 <option value="carto-dark">Modo Oscuro Vectorial (OpenFreeMap)</option>
+                <option value="dark-canvas">Fondo oscuro liso (sin cartografía base)</option>
+                <option value="dark-hillshade" selected>Relieve sombreado oscuro (Esri)</option>
                 <option value="esri-imagery">Imagen Satelital (Referencia visual)</option>
               </select>
             </div>
